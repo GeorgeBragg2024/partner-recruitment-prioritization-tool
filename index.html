@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prioritization Criteria</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #F7F5F0;
+    padding: 40px 40px 36px;
+  }
+
+  .page { max-width: 960px; margin: 0 auto; }
+
+  h2 {
+    font-size: 22px; font-weight: 600; color: #1a1a1a;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    font-size: 13px; color: #888; font-weight: 300; margin-bottom: 28px;
+  }
+
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .row {
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #E8E4DC;
+    background: white;
+  }
+
+  /* LEFT: criterion label */
+  .row-left {
+    width: 240px;
+    flex-shrink: 0;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .c1 .row-left { background: #FDECEA; }
+  .c2 .row-left { background: #E8F5E9; }
+  .c3 .row-left { background: #E3F2FD; }
+  .c4 .row-left { background: #EDE7F6; }
+
+  .c-num {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.09em; color: #1a1a1a; opacity: 0.45;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .gateway-badge {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.07em; padding: 2px 7px; border-radius: 4px;
+    background: #C84B31; color: white; opacity: 1;
+  }
+  .c-title { font-size: 14px; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
+  .c-desc { font-size: 11.5px; color: #1a1a1a; font-weight: 300; line-height: 1.5; opacity: 0.7; }
+
+  /* MIDDLE: low/high guidance */
+  .row-mid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-left: 1px solid #E8E4DC;
+  }
+  .half {
+    padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  .half-low { border-right: 1px solid #E8E4DC; }
+  .half-label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; padding: 3px 8px; border-radius: 4px;
+    align-self: flex-start;
+  }
+  .label-low  { background: #FDECEA; color: #C84B31; }
+  .label-high { background: #E8F5E9; color: #2E7D32; }
+  .half-text { font-size: 12px; color: #333; font-weight: 300; line-height: 1.5; }
+  .half-text strong { font-weight: 600; }
+
+  /* RIGHT: score selector */
+  .row-right {
+    width: 130px;
+    flex-shrink: 0;
+    border-left: 1px solid #E8E4DC;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 12px;
+    gap: 8px;
+    background: #FAFAF8;
+  }
+  .score-label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #bbb;
+  }
+  .score-buttons {
+    display: flex; flex-direction: column; gap: 6px; width: 100%;
+  }
+  .score-btn {
+    width: 100%; padding: 6px 0;
+    border-radius: 6px; border: 1.5px solid #E8E4DC;
+    background: white; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: #aaa;
+    transition: all 0.15s;
+  }
+  .score-btn:hover { border-color: #ccc; color: #555; }
+  .score-btn.active-high { background: #E8F5E9; border-color: #81C784; color: #2E7D32; }
+  .score-btn.active-med  { background: #FFF8E1; border-color: #FFD54F; color: #E65100; }
+  .score-btn.active-low  { background: #FDECEA; border-color: #EF9A9A; color: #C84B31; }
+
+  /* Divider note */
+  .divider-note {
+    display: flex; align-items: center; gap: 12px; padding: 2px 0;
+  }
+  .divider-note-line { height: 1px; background: #E0DCD4; flex: 1; }
+  .divider-note-text {
+    font-size: 11.5px; color: #999; font-weight: 300;
+    font-style: italic; white-space: nowrap;
+  }
+
+  /* Recommendation box */
+  .recommendation {
+    margin-top: 16px;
+    border-radius: 10px;
+    border: 1px solid #E8E4DC;
+    background: white;
+    overflow: hidden;
+  }
+  .rec-header {
+    background: #1a1a1a; color: white;
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .rec-header-title { font-size: 13px; font-weight: 600; }
+  .rec-header-sub { font-size: 12px; color: #888; font-weight: 300; }
+
+  .rec-body {
+    padding: 18px 20px;
+    display: flex; gap: 20px; align-items: flex-start;
+  }
+
+  .rec-level {
+    flex-shrink: 0;
+    width: 120px;
+    text-align: center;
+  }
+  .rec-level-num {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #bbb; margin-bottom: 6px;
+  }
+  .rec-level-badge {
+    font-size: 22px; font-weight: 700; color: #1a1a1a;
+    line-height: 1;
+  }
+  .rec-level-desc {
+    font-size: 11px; color: #666; font-weight: 300;
+    line-height: 1.4; margin-top: 6px;
+  }
+
+  .rec-divider { width: 1px; background: #E8E4DC; align-self: stretch; }
+
+  .rec-rationale {
+    flex: 1;
+    font-size: 13px; color: #333; font-weight: 300; line-height: 1.6;
+  }
+  .rec-rationale strong { font-weight: 600; color: #1a1a1a; }
+
+  .rec-process-note {
+    padding: 12px 20px;
+    border-top: 1px solid #E8E4DC;
+    font-size: 12px; color: #888; font-weight: 300; line-height: 1.5;
+    background: #FAFAF8;
+  }
+  .rec-process-note strong { font-weight: 500; color: #555; }
+
+  .rec-placeholder {
+    padding: 20px; font-size: 13px; color: #bbb; font-style: italic;
+    font-weight: 300;
+  }
+
+  /* Score chips in header */
+  .score-chips { display: flex; gap: 6px; margin-left: auto; flex-wrap: wrap; }
+  .chip {
+    font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .chip-high { background: #E8F5E9; color: #2E7D32; }
+  .chip-med  { background: #FFF8E1; color: #E65100; }
+  .chip-low  { background: #FDECEA; color: #C84B31; }
+  .chip-none { background: #F0EBE4; color: #aaa; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h2>Prioritization criteria</h2>
+  <p class="subtitle">Score each criterion to get a recommended level of engagement</p>
+
+  <div class="stack">
+
+    <!-- C1 -->
+    <div class="row c1">
+      <div class="row-left">
+        <div class="c-num">C1 <span class="gateway-badge">Gateway</span></div>
+        <div class="c-title">Likelihood of success</div>
+        <div class="c-desc">Do we have recruiter capacity? Have we hired a similar role before? Do we have a strong network or existing pipeline?</div>
+      </div>
+      <div class="row-mid">
+        <div class="half half-low">
+          <span class="half-label label-low">Low</span>
+          <div class="half-text"><strong>Don't engage, or lean toward level 1 only,</strong> regardless of other criteria.</div>
+        </div>
+        <div class="half half-high">
+          <span class="half-label label-high">High</span>
+          <div class="half-text">Consider all levels of engagement, if C2–4 indicate we should proceed.</div>
+        </div>
+      </div>
+      <div class="row-right">
+        <div class="score-label">Your score</div>
+        <div class="score-buttons">
+          <button class="score-btn" data-crit="c1" data-val="high" onclick="setScore('c1','high',this)">High</button>
+          <button class="score-btn" data-crit="c1" data-val="med"  onclick="setScore('c1','med',this)">Med</button>
+          <button class="score-btn" data-crit="c1" data-val="low"  onclick="setScore('c1','low',this)">Low</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider-note">
+      <div class="divider-note-line"></div>
+      <div class="divider-note-text">Note: high likelihood of success is a pre-requisite to anything beyond level 1, regardless of the criteria below</div>
+      <div class="divider-note-line"></div>
+    </div>
+
+    <!-- C2 -->
+    <div class="row c2">
+      <div class="row-left">
+        <div class="c-num">C2</div>
+        <div class="c-title">Strategic benefit to Prevail</div>
+        <div class="c-desc">Do we benefit beyond helping the partner? e.g. building expertise, reputational gain, expanding our network</div>
+      </div>
+      <div class="row-mid">
+        <div class="half half-low">
+          <span class="half-label label-low">Low</span>
+          <div class="half-text">Likely don't engage beyond level 1, unless partner or role priority are high.</div>
+        </div>
+        <div class="half half-high">
+          <span class="half-label label-high">High</span>
+          <div class="half-text">Consider engaging, even if partner & role priority are low.</div>
+        </div>
+      </div>
+      <div class="row-right">
+        <div class="score-label">Your score</div>
+        <div class="score-buttons">
+          <button class="score-btn" data-crit="c2" data-val="high" onclick="setScore('c2','high',this)">High</button>
+          <button class="score-btn" data-crit="c2" data-val="med"  onclick="setScore('c2','med',this)">Med</button>
+          <button class="score-btn" data-crit="c2" data-val="low"  onclick="setScore('c2','low',this)">Low</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- C3 -->
+    <div class="row c3">
+      <div class="row-left">
+        <div class="c-num">C3</div>
+        <div class="c-title">Priority of the partner</div>
+        <div class="c-desc">Is the partner categorised as high-support? Are we scaling up or down with them?</div>
+      </div>
+      <div class="row-mid">
+        <div class="half half-low">
+          <span class="half-label label-low">Low</span>
+          <div class="half-text">Likely don't engage beyond level 1, regardless of role priority, unless there is strategic benefit to Prevail.</div>
+        </div>
+        <div class="half half-high">
+          <span class="half-label label-high">High</span>
+          <div class="half-text">Engage and lean into fuller engagement, even if strategic benefit is low. Aim for higher priority roles.</div>
+        </div>
+      </div>
+      <div class="row-right">
+        <div class="score-label">Your score</div>
+        <div class="score-buttons">
+          <button class="score-btn" data-crit="c3" data-val="high" onclick="setScore('c3','high',this)">High</button>
+          <button class="score-btn" data-crit="c3" data-val="med"  onclick="setScore('c3','med',this)">Med</button>
+          <button class="score-btn" data-crit="c3" data-val="low"  onclick="setScore('c3','low',this)">Low</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- C4 -->
+    <div class="row c4">
+      <div class="row-left">
+        <div class="c-num">C4</div>
+        <div class="c-title">Priority of the role</div>
+        <div class="c-desc">How senior is the role? Does the partner have an existing pipeline, or are they confident of filling it themselves?</div>
+      </div>
+      <div class="row-mid">
+        <div class="half half-low">
+          <span class="half-label label-low">Low</span>
+          <div class="half-text">Engage only if there is strategic benefit to Prevail, or a very high priority partner with very high likelihood of success.</div>
+        </div>
+        <div class="half half-high">
+          <span class="half-label label-high">High</span>
+          <div class="half-text">Lean toward high engagement, unless partner priority is low and there is no strategic benefit.</div>
+        </div>
+      </div>
+      <div class="row-right">
+        <div class="score-label">Your score</div>
+        <div class="score-buttons">
+          <button class="score-btn" data-crit="c4" data-val="high" onclick="setScore('c4','high',this)">High</button>
+          <button class="score-btn" data-crit="c4" data-val="med"  onclick="setScore('c4','med',this)">Med</button>
+          <button class="score-btn" data-crit="c4" data-val="low"  onclick="setScore('c4','low',this)">Low</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Recommendation -->
+  <div class="recommendation">
+    <div class="rec-header">
+      <div>
+        <div class="rec-header-title">Recommended engagement</div>
+        <div class="rec-header-sub">Based on your scores</div>
+      </div>
+      <div class="score-chips" id="scoreChips">
+        <span class="chip chip-none">C1 —</span>
+        <span class="chip chip-none">C2 —</span>
+        <span class="chip chip-none">C3 —</span>
+        <span class="chip chip-none">C4 —</span>
+      </div>
+    </div>
+    <div id="recBody">
+      <div class="rec-placeholder">Score all four criteria above to see a recommendation.</div>
+    </div>
+    <div class="rec-process-note">
+      💡 <strong>Light process support</strong> (e.g. interview questions, scorecard design) can be offered as a standalone at any level — it is not tied to a sourcing engagement.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const scores = { c1: null, c2: null, c3: null, c4: null };
+
+  const levelDescs = {
+    1: 'Share existing candidates + make intros',
+    2: 'Sourcing (networking & online)',
+    3: 'Sourcing + info calls / initial screening',
+    4: 'Sourcing, screening, interviews + process support',
+    5: 'Full end-to-end responsibility'
+  };
+
+  function setScore(crit, val, btn) {
+    scores[crit] = val;
+    // update button states
+    btn.closest('.score-buttons').querySelectorAll('.score-btn').forEach(b => {
+      b.classList.remove('active-high','active-med','active-low');
+    });
+    btn.classList.add('active-' + val);
+    updateChips();
+    if (Object.values(scores).every(v => v !== null)) {
+      updateRecommendation();
+    }
+  }
+
+  function updateChips() {
+    const chips = document.getElementById('scoreChips');
+    const labels = ['C1','C2','C3','C4'];
+    const keys = ['c1','c2','c3','c4'];
+    chips.innerHTML = keys.map((k,i) => {
+      const v = scores[k];
+      const cls = v ? 'chip-' + v : 'chip-none';
+      return `<span class="chip ${cls}">${labels[i]} ${v ? v.charAt(0).toUpperCase() + v.slice(1) : '—'}</span>`;
+    }).join('');
+  }
+
+  function updateRecommendation() {
+    const { c1, c2, c3, c4 } = scores;
+    let level, rationale;
+
+    // Step 1: determine base range from C2, C3, C4
+    // C2 weighted higher as strategic override (high=3, med=1, low=0)
+    const val = (v, isC2) => {
+      if (isC2) return v === 'high' ? 3 : v === 'med' ? 1 : 0;
+      return v === 'high' ? 2 : v === 'med' ? 1 : 0;
+    };
+    const baseScore = val(c2, true) + val(c3) + val(c4); // 0–7
+
+    // Map base score to a [lo, hi] range
+    let lo, hi;
+    if (baseScore >= 7)      { lo = 4; hi = 5; }
+    else if (baseScore >= 6) { lo = 4; hi = 5; }
+    else if (baseScore >= 5) { lo = 3; hi = 4; }
+    else if (baseScore >= 4) { lo = 3; hi = 4; }
+    else if (baseScore >= 3) { lo = 2; hi = 3; }
+    else if (baseScore >= 2) { lo = 1; hi = 2; }
+    else if (baseScore >= 1) { lo = 1; hi = 2; }
+    else                     { lo = 1; hi = 1; }
+
+    // Step 2: apply C1 ceiling to range
+    let cap;
+    if (c1 === 'low')      cap = 2;
+    else if (c1 === 'med') cap = 4;
+    else                   cap = 5;
+
+    const newHi = Math.min(hi, cap);
+    const newLo = Math.min(lo, cap);
+    const finalLevel = newLo === newHi ? `${newLo}` : `${newLo}–${newHi}`;
+    const wasCapped = newHi < hi;
+
+    // Step 3: build rationale
+    const c1Note = c1 === 'low'
+      ? 'Likelihood of success is low — capping at 1–2 regardless of other signals. Be transparent with the partner about capacity constraints.'
+      : c1 === 'med'
+      ? 'Likelihood of success is uncertain — capping at level 4 maximum. Be clear with the partner we are not committing to full end-to-end ownership.'
+      : 'Likelihood of success is strong — no constraint on engagement depth.';
+
+    const c2Note = c2 === 'high'
+      ? 'Strong strategic benefit to Prevail justifies engaging even if other signals are weaker.'
+      : c2 === 'med'
+      ? 'Some strategic benefit — worth proceeding if other signals support it.'
+      : 'Limited strategic benefit — rely on partner and role priority to justify engagement.';
+
+    const c34Note = (c3 === 'high' && c4 === 'high')
+      ? 'High partner and role priority strongly support deeper engagement.'
+      : (c3 === 'high' || c4 === 'high')
+      ? 'One strong signal from partner or role priority — supports meaningful engagement.'
+      : (c3 === 'med' || c4 === 'med')
+      ? 'Mixed partner and role priority — engage but set clear expectations.'
+      : 'Low partner and role priority — keep engagement light unless C2 justifies otherwise.';
+
+    const cappedNote = wasCapped
+      ? ` <em>(Signals suggested ${lo}–${hi}, adjusted down by C1.)</em>`
+      : '';
+
+    rationale = `<strong>Levels ${finalLevel} suggested.</strong> ${c1Note} ${c2Note} ${c34Note}${cappedNote}`;
+
+    // Level desc for display — show range description
+    const rangeDesc = newLo === newHi
+      ? levelDescs[newLo]
+      : `${levelDescs[newLo]} → ${levelDescs[newHi]}`;
+
+    document.getElementById('recBody').innerHTML = `
+      <div class="rec-body">
+        <div class="rec-level">
+          <div class="rec-level-num">Suggested level</div>
+          <div class="rec-level-badge">${finalLevel}</div>
+          <div class="rec-level-desc">${rangeDesc}</div>
+        </div>
+        <div class="rec-divider"></div>
+        <div class="rec-rationale">${rationale}</div>
+      </div>`;
+  }
+</script>
+</body>
+</html>
