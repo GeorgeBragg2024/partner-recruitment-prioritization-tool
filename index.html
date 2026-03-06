@@ -21,15 +21,10 @@
   .c-num { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; color: #1a1a1a; opacity: 0.45; display: flex; align-items: center; gap: 8px; }
   .gateway-badge { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; padding: 2px 7px; border-radius: 4px; background: #C84B31; color: white; opacity: 1; }
   .c-title { font-size: 13px; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
-  .c-desc { font-size: 11px; color: #1a1a1a; font-weight: 300; line-height: 1.4; opacity: 0.7; }
-  .row-mid { flex: 1; display: grid; grid-template-columns: 1fr 1fr; border-left: 1px solid #E8E4DC; }
-  .half { padding: 9px 13px; display: flex; flex-direction: column; gap: 5px; }
-  .half-low { border-right: 1px solid #E8E4DC; }
-  .half-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 7px; border-radius: 4px; align-self: flex-start; }
-  .label-low  { background: #FDECEA; color: #C84B31; }
-  .label-high { background: #E8F5E9; color: #2E7D32; }
-  .half-text { font-size: 11.5px; color: #333; font-weight: 300; line-height: 1.4; }
-  .half-text strong { font-weight: 600; }
+  .c-desc { font-size: 12px; color: #1a1a1a; font-weight: 300; line-height: 1.4; opacity: 0.7; }
+  .row-mid { flex: 1; display: flex; flex-direction: column; border-left: 1px solid #E8E4DC; padding: 10px 16px; gap: 4px; }
+  .mid-header { font-size: 13px; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
+  .mid-desc { font-size: 12px; color: #555; font-weight: 300; line-height: 1.6; }
   .row-right { width: 110px; flex-shrink: 0; border-left: 1px solid #E8E4DC; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 10px; gap: 5px; background: #FAFAF8; }
   .score-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #bbb; }
   .score-buttons { display: flex; flex-direction: column; gap: 4px; width: 100%; }
@@ -90,7 +85,6 @@
       <div class="level-box lb-4"><div class="lv-tag">Level 4</div><ul class="lv-list"><li>Share existing candidates</li><li>Source, screen, full interviews</li><li>Process support</li></ul></div>
       <div class="level-box lb-5"><div class="lv-tag">Level 5</div><ul class="lv-list"><li>Full end-to-end responsibility</li></ul></div>
     </div>
-    <div class="levels-process-note"><strong>Note:</strong> Light process support (e.g. interview questions, scorecard design) can be offered as a standalone at any level — it is not tied to a sourcing engagement.</div>
   </div>
 
   <h2>Prioritization criteria</h2>
@@ -100,19 +94,13 @@
 
     <div class="row c1">
       <div class="row-left">
-        <div class="c-num">C1 <span class="gateway-badge">Gateway</span></div>
-        <div class="c-title">Likelihood of success</div>
+
+        <div class="c-title">Our ability to succeed</div>
         <div class="c-desc">Do we have recruiter capacity? Have we hired a similar role before? Do we have a strong network or existing pipeline?</div>
       </div>
       <div class="row-mid">
-        <div class="half half-low">
-          <span class="half-label label-low">Low</span>
-          <div class="half-text"><strong>Don't engage, or lean toward level 1 only,</strong> regardless of other criteria.</div>
-        </div>
-        <div class="half half-high">
-          <span class="half-label label-high">High</span>
-          <div class="half-text">Consider all levels of engagement, if C2–4 indicate we should proceed.</div>
-        </div>
+        <div class="mid-header">When &amp; how we'd engage</div>
+        <div class="mid-desc">If our ability to succeed is low, limit or don't engage, regardless of other criteria. The better our ability to succeed, the more we lean into deeper support.</div>
       </div>
       <div class="row-right">
         <div class="score-label">Your score</div>
@@ -132,19 +120,13 @@
 
     <div class="row c2">
       <div class="row-left">
-        <div class="c-num">C2</div>
+
         <div class="c-title">Strategic benefit to Prevail</div>
         <div class="c-desc">Do we benefit beyond helping the partner? e.g. building expertise, reputational gain, expanding our network</div>
       </div>
       <div class="row-mid">
-        <div class="half half-low">
-          <span class="half-label label-low">Low</span>
-          <div class="half-text">Likely don't engage beyond level 1, unless partner or role priority are high.</div>
-        </div>
-        <div class="half half-high">
-          <span class="half-label label-high">High</span>
-          <div class="half-text">Consider engaging, even if partner & role priority are low.</div>
-        </div>
+        <div class="mid-header">When &amp; how we'd engage</div>
+        <div class="mid-desc">If strategic benefit is high, consider engaging even if partner and role priority are low. If strategic benefit is low, limit engagement unless partner or role priority are high.</div>
       </div>
       <div class="row-right">
         <div class="score-label">Your score</div>
@@ -158,19 +140,13 @@
 
     <div class="row c3">
       <div class="row-left">
-        <div class="c-num">C3</div>
+
         <div class="c-title">Priority of the partner</div>
         <div class="c-desc">Is the partner categorised as high-support? Are we scaling up or down with them?</div>
       </div>
       <div class="row-mid">
-        <div class="half half-low">
-          <span class="half-label label-low">Low</span>
-          <div class="half-text">Likely don't engage beyond level 1, regardless of role priority, unless there is strategic benefit to Prevail.</div>
-        </div>
-        <div class="half half-high">
-          <span class="half-label label-high">High</span>
-          <div class="half-text">Engage and lean into fuller engagement, even if strategic benefit is low. Aim for higher priority roles.</div>
-        </div>
+        <div class="mid-header">When &amp; how we'd engage</div>
+        <div class="mid-desc">For a high priority partner, lean in even if strategic benefit is low. Aim for high priority roles. Limit engagement for a low priority partner unless there is clear strategic benefit to Prevail.</div>
       </div>
       <div class="row-right">
         <div class="score-label">Your score</div>
@@ -184,19 +160,13 @@
 
     <div class="row c4">
       <div class="row-left">
-        <div class="c-num">C4</div>
+
         <div class="c-title">Priority of the role</div>
         <div class="c-desc">How senior is the role? Does the partner have an existing pipeline, or are they confident of filling it themselves?</div>
       </div>
       <div class="row-mid">
-        <div class="half half-low">
-          <span class="half-label label-low">Low</span>
-          <div class="half-text">Engage only if there is strategic benefit to Prevail, or a very high priority partner with very high likelihood of success.</div>
-        </div>
-        <div class="half half-high">
-          <span class="half-label label-high">High</span>
-          <div class="half-text">Lean toward high engagement, unless partner priority is low and there is no strategic benefit.</div>
-        </div>
+        <div class="mid-header">When &amp; how we'd engage</div>
+        <div class="mid-desc">We lean into higher priority roles. We would consider low priority roles if there was clear strategic benefit and a strong ability to succeed.</div>
       </div>
       <div class="row-right">
         <div class="score-label">Your score</div>
