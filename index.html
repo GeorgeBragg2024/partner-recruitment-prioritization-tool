@@ -8,24 +8,22 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'DM Sans', sans-serif; background: #F7F5F0; padding: 20px 28px; }
-  .page { max-width: 960px; margin: 0 auto; }
+  .page { max-width: 680px; margin: 0 auto; }
   h2 { font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 3px; }
   .subtitle { font-size: 11.5px; color: #888; font-weight: 300; margin-bottom: 14px; }
   .stack { display: flex; flex-direction: column; gap: 5px; }
   .row { display: flex; border-radius: 8px; overflow: hidden; border: 1px solid #E8E4DC; background: white; }
-  .row-left { width: 220px; flex-shrink: 0; padding: 10px 14px; display: flex; flex-direction: column; gap: 3px; }
+  .row-left { width: 170px; flex-shrink: 0; padding: 10px 14px; display: flex; flex-direction: column; gap: 3px; }
   .c1 .row-left { background: #FDECEA; }
   .c2 .row-left { background: #E8F5E9; }
   .c3 .row-left { background: #E3F2FD; }
   .c4 .row-left { background: #EDE7F6; }
-  .c-num { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; color: #1a1a1a; opacity: 0.45; display: flex; align-items: center; gap: 8px; }
-  .gateway-badge { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; padding: 2px 7px; border-radius: 4px; background: #C84B31; color: white; opacity: 1; }
   .c-title { font-size: 13px; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
-  .c-desc { font-size: 12px; color: #1a1a1a; font-weight: 300; line-height: 1.4; opacity: 0.7; }
-  .row-mid { flex: 1; display: flex; flex-direction: column; border-left: 1px solid #E8E4DC; padding: 10px 16px; gap: 4px; }
+  .c-desc { font-size: 11px; color: #1a1a1a; font-weight: 300; line-height: 1.4; opacity: 0.7; }
+  .row-mid { flex: 1; display: flex; flex-direction: column; border-left: 1px solid #E8E4DC; padding: 10px 14px; gap: 4px; }
   .mid-header { font-size: 13px; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
   .mid-desc { font-size: 12px; color: #555; font-weight: 300; line-height: 1.6; }
-  .row-right { width: 110px; flex-shrink: 0; border-left: 1px solid #E8E4DC; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 10px; gap: 5px; background: #FAFAF8; }
+  .row-right { width: 100px; flex-shrink: 0; border-left: 1px solid #E8E4DC; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 10px; gap: 5px; background: #FAFAF8; }
   .score-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #bbb; }
   .score-buttons { display: flex; flex-direction: column; gap: 4px; width: 100%; }
   .score-btn { width: 100%; padding: 4px 0; border-radius: 5px; border: 1.5px solid #E8E4DC; background: white; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; transition: all 0.15s; }
@@ -41,7 +39,7 @@
   .rec-header-title { font-size: 13px; font-weight: 600; }
   .rec-header-sub { font-size: 11px; color: #888; font-weight: 300; }
   .rec-body { padding: 12px 16px; display: flex; gap: 16px; align-items: flex-start; }
-  .rec-level { flex-shrink: 0; width: 110px; text-align: center; }
+  .rec-level { flex-shrink: 0; width: 100px; text-align: center; }
   .rec-level-num { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #bbb; margin-bottom: 4px; }
   .rec-level-badge { font-size: 26px; font-weight: 700; color: #1a1a1a; line-height: 1; }
   .rec-level-desc { font-size: 11px; color: #666; font-weight: 300; line-height: 1.5; margin-top: 4px; text-align: left; }
@@ -59,14 +57,12 @@
   .chip-none { background: #F0EBE4; color: #aaa; }
   .levels-section { margin-bottom: 16px; }
   .levels-title { font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px; }
-  .levels-note { font-size: 12px; color: #888; font-weight: 300; margin-bottom: 14px; }
-  .level-track { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .level-track { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
   .level-box { border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
   .lb-1 { background: #EBF4FF; }
   .lb-2 { background: #EAF5EB; }
-  .lb-3 { background: #FEFAE8; }
-  .lb-4 { background: #FEF3E6; }
-  .lb-5 { background: #FDE8EE; }
+  .lb-3 { background: #FEF3E6; }
+  .lb-4 { background: #FDE8EE; }
   .lv-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: #1a1a1a; opacity: 0.5; }
   .lv-list { list-style: disc; padding-left: 14px; display: flex; flex-direction: column; gap: 2px; }
   .lv-list li { font-size: 12px; color: #1a1a1a; line-height: 1.35; font-weight: 400; }
@@ -80,11 +76,11 @@
     <div class="levels-title">Potential levels of engagement</div>
     <div class="level-track">
       <div class="level-box lb-1"><div class="lv-tag">Level 1</div><ul class="lv-list"><li>Share existing candidates + make intros</li></ul></div>
-      <div class="level-box lb-2"><div class="lv-tag">Level 2</div><ul class="lv-list"><li>Share existing candidates</li><li>Source (networking & online)</li></ul></div>
-      <div class="level-box lb-3"><div class="lv-tag">Level 3</div><ul class="lv-list"><li>Share existing candidates</li><li>Source + initial screen</li></ul></div>
-      <div class="level-box lb-4"><div class="lv-tag">Level 4</div><ul class="lv-list"><li>Share existing candidates</li><li>Source, screen, full interviews</li><li>Process support</li></ul></div>
-      <div class="level-box lb-5"><div class="lv-tag">Level 5</div><ul class="lv-list"><li>Full end-to-end responsibility</li></ul></div>
+      <div class="level-box lb-2"><div class="lv-tag">Level 2</div><ul class="lv-list"><li>Share existing candidates</li><li>Source (networking & online)</li><li>Potentially initial screening</li></ul></div>
+      <div class="level-box lb-3"><div class="lv-tag">Level 3</div><ul class="lv-list"><li>Share existing candidates</li><li>Source, screen, full interviews</li><li>Full process support</li></ul></div>
+      <div class="level-box lb-4"><div class="lv-tag">Level 4</div><ul class="lv-list"><li>Full end-to-end responsibility</li><li>Potentially embed recruiter</li></ul></div>
     </div>
+    <div class="levels-process-note"><strong>Note:</strong> Light process support (e.g. interview questions, scorecard design) can be offered as a standalone at any level — it is not tied to a sourcing engagement.</div>
   </div>
 
   <h2>Prioritization criteria</h2>
@@ -94,12 +90,11 @@
 
     <div class="row c1">
       <div class="row-left">
-
         <div class="c-title">Our ability to succeed</div>
         <div class="c-desc">Do we have recruiter capacity? Have we hired a similar role before? Do we have a strong network or existing pipeline?</div>
       </div>
       <div class="row-mid">
-        <div class="mid-header">When &amp; how we'd engage</div>
+        <div class="mid-header">When & how we'd engage</div>
         <div class="mid-desc">If our ability to succeed is low, limit or don't engage, regardless of other criteria. The better our ability to succeed, the more we lean into deeper support.</div>
       </div>
       <div class="row-right">
@@ -120,12 +115,11 @@
 
     <div class="row c2">
       <div class="row-left">
-
         <div class="c-title">Strategic benefit to Prevail</div>
         <div class="c-desc">Do we benefit beyond helping the partner? e.g. building expertise, reputational gain, expanding our network</div>
       </div>
       <div class="row-mid">
-        <div class="mid-header">When &amp; how we'd engage</div>
+        <div class="mid-header">When & how we'd engage</div>
         <div class="mid-desc">If strategic benefit is high, consider engaging even if partner and role priority are low. If strategic benefit is low, limit engagement unless partner or role priority are high.</div>
       </div>
       <div class="row-right">
@@ -140,12 +134,11 @@
 
     <div class="row c3">
       <div class="row-left">
-
         <div class="c-title">Priority of the partner</div>
         <div class="c-desc">Is the partner categorised as high-support? Are we scaling up or down with them?</div>
       </div>
       <div class="row-mid">
-        <div class="mid-header">When &amp; how we'd engage</div>
+        <div class="mid-header">When & how we'd engage</div>
         <div class="mid-desc">For a high priority partner, lean in even if strategic benefit is low. Aim for high priority roles. Limit engagement for a low priority partner unless there is clear strategic benefit to Prevail.</div>
       </div>
       <div class="row-right">
@@ -160,12 +153,11 @@
 
     <div class="row c4">
       <div class="row-left">
-
         <div class="c-title">Priority of the role</div>
         <div class="c-desc">How senior is the role? Does the partner have an existing pipeline, or are they confident of filling it themselves?</div>
       </div>
       <div class="row-mid">
-        <div class="mid-header">When &amp; how we'd engage</div>
+        <div class="mid-header">When & how we'd engage</div>
         <div class="mid-desc">We lean into higher priority roles. We would consider low priority roles if there was clear strategic benefit and a strong ability to succeed.</div>
       </div>
       <div class="row-right">
@@ -204,12 +196,12 @@
 </div>
 <script>
   const scores = { c1: null, c2: null, c3: null, c4: null };
+
   const levelDescs = {
     1: '• Share existing candidates + make intros',
-    2: '• Share existing candidates\n• Source (networking & online)',
-    3: '• Share existing candidates\n• Source + initial screen',
-    4: '• Share existing candidates\n• Source, screen, full interviews\n• Process support',
-    5: '• Full end-to-end responsibility'
+    2: '• Share existing candidates\n• Source (networking & online)\n• Potentially initial screening',
+    3: '• Share existing candidates\n• Source, screen, full interviews\n• Full process support',
+    4: '• Full end-to-end responsibility\n• Potentially embed recruiter'
   };
 
   function setScore(crit, val, btn) {
@@ -234,38 +226,40 @@
 
   function updateRecommendation() {
     const { c1, c2, c3, c4 } = scores;
-    const val = (v, isC2) => {
-      if (isC2) return v === 'high' ? 3 : v === 'med' ? 1 : 0;
-      return v === 'high' ? 2 : v === 'med' ? 1 : 0;
-    };
-    const baseScore = val(c2, true) + val(c3) + val(c4);
 
+    // C2 weighted as strategic override: high=3, med=1, low=0
+    // C3, C4: high=2, med=1, low=0
+    const v2 = c2 === 'high' ? 3 : c2 === 'med' ? 1 : 0;
+    const v3 = c3 === 'high' ? 2 : c3 === 'med' ? 1 : 0;
+    const v4 = c4 === 'high' ? 2 : c4 === 'med' ? 1 : 0;
+    const baseScore = v2 + v3 + v4; // 0–7
+
+    // Map to [lo, hi] range across 4 levels
     let lo, hi;
-    if (baseScore >= 6)      { lo = 4; hi = 5; }
-    else if (baseScore >= 5) { lo = 3; hi = 4; }
-    else if (baseScore >= 4) { lo = 3; hi = 4; }
-    else if (baseScore >= 3) { lo = 2; hi = 3; }
+    if (baseScore >= 6)      { lo = 3; hi = 4; }
+    else if (baseScore >= 4) { lo = 2; hi = 3; }
     else if (baseScore >= 2) { lo = 1; hi = 2; }
     else if (baseScore >= 1) { lo = 1; hi = 2; }
     else                     { lo = 1; hi = 1; }
 
-    const cap = c1 === 'low' ? 2 : c1 === 'med' ? 4 : 5;
+    // C1 ceiling: low=1 only, med=cap at 3, high=cap at 4
+    const cap = c1 === 'low' ? 1 : c1 === 'med' ? 3 : 4;
     const newHi = Math.min(hi, cap);
-    const newLo = c1 === 'low' ? 1 : Math.min(lo, cap); // always start at 1 when C1 is low
+    const newLo = c1 === 'low' ? 1 : Math.min(lo, cap);
     const finalLevel = newLo === newHi ? `${newLo}` : `${newLo}–${newHi}`;
     const wasCapped = newHi < hi;
 
     const c1Note = c1 === 'low'
-      ? 'Likelihood of success is low — capping at 1–2 regardless of other signals. Be transparent with the partner about capacity constraints.'
+      ? 'Ability to succeed is low — level 1 only regardless of other signals. Be transparent with the partner about capacity constraints.'
       : c1 === 'med'
-      ? 'Likelihood of success is uncertain — capping at level 4 maximum. Be clear with the partner we are not committing to full end-to-end ownership.'
-      : 'Likelihood of success is strong — no constraint on engagement depth.';
+      ? 'Ability to succeed is uncertain — capping at level 3. Be clear with the partner we are not committing to full ownership.'
+      : 'Ability to succeed is strong — no constraint on engagement depth.';
 
     const c2Note = c2 === 'high'
-      ? 'Strong strategic benefit to Prevail justifies engaging even if other signals are weaker.'
+      ? 'Strong strategic benefit justifies engaging even if other signals are weaker.'
       : c2 === 'med'
       ? 'Some strategic benefit — worth proceeding if other signals support it.'
-      : 'Limited strategic benefit — rely on partner and role priority to justify engagement.';
+      : 'Limited strategic benefit — partner and role priority need to justify engagement.';
 
     const c34Note = (c3 === 'high' && c4 === 'high')
       ? 'High partner and role priority strongly support deeper engagement.'
@@ -275,10 +269,8 @@
       ? 'Mixed partner and role priority — engage but set clear expectations.'
       : 'Low partner and role priority — keep engagement light unless C2 justifies otherwise.';
 
-    const cappedNote = wasCapped ? ` <em>(Signals suggested ${lo}–${hi}, adjusted down by C1.)</em>` : '';
-    const rangeDesc = newLo === newHi
-      ? levelDescs[newLo].replace(/\n/g, '<br>')
-      : levelDescs[newHi].replace(/\n/g, '<br>');
+    const cappedNote = wasCapped ? ` <em>(Signals suggested ${lo}–${hi}, adjusted down by ability to succeed.)</em>` : '';
+    const rangeDesc = levelDescs[newHi].replace(/\n/g, '<br>');
 
     document.getElementById('recBody').innerHTML = `
       <div class="rec-body">
@@ -288,7 +280,7 @@
           <div class="rec-level-desc">${rangeDesc}</div>
         </div>
         <div class="rec-divider"></div>
-        <div class="rec-rationale"><strong>Levels ${finalLevel} suggested.</strong> ${c1Note} ${c2Note} ${c34Note}${cappedNote}</div>
+        <div class="rec-rationale"><strong>Level ${finalLevel} suggested.</strong> ${c1Note} ${c2Note} ${c34Note}${cappedNote}</div>
       </div>`;
   }
 </script>
