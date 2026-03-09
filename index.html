@@ -39,7 +39,7 @@
   .rec-header-title { font-size: 13px; font-weight: 600; }
   .rec-header-sub { font-size: 11px; color: #888; font-weight: 300; }
   .rec-body { padding: 12px 16px; display: flex; gap: 16px; align-items: flex-start; }
-  .rec-level { flex-shrink: 0; width: 100px; text-align: center; }
+  .rec-level { flex-shrink: 0; width: 140px; text-align: center; }
   .rec-level-num { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #bbb; margin-bottom: 4px; }
   .rec-level-badge { font-size: 26px; font-weight: 700; color: #1a1a1a; line-height: 1; }
   .rec-level-desc { font-size: 11px; color: #666; font-weight: 300; line-height: 1.5; margin-top: 4px; text-align: left; }
@@ -76,18 +76,18 @@
 
   <div class="levels-section">
     <div class="levels-title">Potential levels of engagement</div>
-    <div class="levels-ownership-note">For levels 1–3, we support — the partner owns the outcome and can/should use other options. At level 4, Prevail takes on more responsibility for the outcome.</div>
+    <div class="levels-ownership-note">For levels 1–3, Prevail plays a supporting role — the partner owns the outcome and can/should use other recruitment resources. At level 4, Prevail takes on more responsibility for the outcome.</div>
     <div class="level-track">
       <div class="level-box lb-1"><div class="lv-tag">Level 1</div><ul class="lv-list"><li>Share existing candidates + make intros</li></ul></div>
       <div class="level-box lb-2"><div class="lv-tag">Level 2</div><ul class="lv-list"><li>Share existing candidates</li><li>Source (networking & online)</li><li>Potentially initial screening</li></ul></div>
       <div class="level-box lb-3"><div class="lv-tag">Level 3</div><ul class="lv-list"><li>Share existing candidates</li><li>Source, screen, full interviews</li><li>Full process & evaluation support</li></ul></div>
       <div class="level-box lb-4"><div class="lv-tag">Level 4</div><ul class="lv-list"><li>Full end-to-end responsibility</li><li>Potentially embed recruiter</li></ul></div>
     </div>
-    <div class="levels-process-note"><strong>Note:</strong> We can offer light process support (e.g. interview questions, scorecard design) if it's easy to do, regardless of criteria.</div>
+
   </div>
 
   <h2>Prioritization criteria</h2>
-  <p class="subtitle">Score each criterion to get a suggested level of engagement. These are guidelines to inform a judgment call — not hard and fast rules.</p>
+  <p class="subtitle">Score each criteria for a recommended level of engagement — these are guidelines only.</p>
   <div class="stack">
 
     <div class="row c1">
@@ -160,7 +160,7 @@
       </div>
       <div class="row-mid">
         <div class="mid-header">When & how we'd engage</div>
-        <div class="mid-desc">We lean into higher priority roles. We would consider low priority roles if there was clear strategic benefit and a strong ability to succeed.</div>
+        <div class="mid-desc">Aim for high priority roles in general. Avoid low priority roles unless there is strategic benefit and a high ability to succeed.</div>
       </div>
       <div class="row-right">
         <div class="score-label">Your score</div>
@@ -174,7 +174,6 @@
 
   </div>
 
-  <div class="levels-process-note"><strong>Note:</strong> Light process support (e.g. interview questions, scorecard design) can be offered as a standalone at any level — it is not tied to a sourcing engagement.</div>
 
   <div class="recommendation">
     <div class="rec-header">
@@ -228,32 +227,52 @@
   function updateRecommendation() {
     const { c1, c2, c3, c4 } = scores;
 
-    // C2 weighted as strategic override: high=3, med=1, low=0
-    // C3, C4: high=2, med=1, low=0
+    // C1 is the gateway — Low means Level 1, full stop
+    if (c1 === 'low') {
+      const rangeDesc = levelDescs[1].replace(/\n/g, '<br>');
+      document.getElementById('recBody').innerHTML = `
+        <div class="rec-body">
+          <div class="rec-level">
+            <div class="rec-level-num">Suggested level</div>
+            <div class="rec-level-badge">1</div>
+            <div class="rec-level-desc">${rangeDesc}</div>
+          </div>
+          <div class="rec-divider"></div>
+          <div class="rec-rationale"><strong>Level 1 only.</strong> Ability to succeed is low — share existing candidates only, regardless of other criteria. Be transparent with the partner about capacity constraints.</div>
+        </div>`;
+      return;
+    }
+
+    // Score C2 (strategic, weighted higher), C3, C4
     const v2 = c2 === 'high' ? 3 : c2 === 'med' ? 1 : 0;
     const v3 = c3 === 'high' ? 2 : c3 === 'med' ? 1 : 0;
     const v4 = c4 === 'high' ? 2 : c4 === 'med' ? 1 : 0;
-    const baseScore = v2 + v3 + v4; // 0–7
+    const s = v2 + v3 + v4; // 0–7
 
-    // Map to [lo, hi] range across 4 levels
-    let lo, hi;
-    if (baseScore >= 6)      { lo = 3; hi = 4; }
-    else if (baseScore >= 4) { lo = 2; hi = 3; }
-    else if (baseScore >= 2) { lo = 1; hi = 2; }
-    else if (baseScore >= 1) { lo = 1; hi = 2; }
-    else                     { lo = 1; hi = 1; }
+    // Count how many of C2/C3/C4 are mixed (genuine uncertainty)
+    const highs = [c2,c3,c4].filter(v => v==='high').length;
+    const lows  = [c2,c3,c4].filter(v => v==='low').length;
+    const mixed = highs > 0 && lows > 0; // only range when signals actively conflict
 
-    // C1 ceiling: low=1 only, med=cap at 3, high=cap at 4
-    const cap = c1 === 'low' ? 1 : c1 === 'med' ? 3 : 4;
-    const newHi = Math.min(hi, cap);
-    const newLo = c1 === 'low' ? 1 : Math.min(lo, cap);
-    const finalLevel = newLo === newHi ? `${newLo}` : `${newLo}–${newHi}`;
-    const wasCapped = newHi < hi;
+    // Map score to level — single level unless genuinely mixed
+    let level;
+    if      (s >= 7)                  level = '4';
+    else if (s >= 6)                  level = '4';
+    else if (s >= 5)                  level = mixed ? '3–4' : '3';
+    else if (s >= 4)                  level = '3';
+    else if (s >= 3)                  level = mixed ? '2–3' : '2';
+    else if (s >= 2)                  level = '2';
+    else if (s >= 1)                  level = mixed ? '1–2' : '1';
+    else                              level = '1';
 
-    const c1Note = c1 === 'low'
-      ? 'Ability to succeed is low — level 1 only regardless of other signals. Be transparent with the partner about capacity constraints.'
-      : c1 === 'med'
-      ? 'Ability to succeed is uncertain — capping at level 3. Be clear with the partner we are not committing to full ownership.'
+    // C1 Med caps at Level 3
+    if (c1 === 'med') {
+      level = level.replace('4', '3');
+      if (level === '3–3') level = '3';
+    }
+
+    const c1Note = c1 === 'med'
+      ? 'Ability to succeed is uncertain — capping at level 3. Be clear with the partner we are not taking full ownership of the search.'
       : 'Ability to succeed is strong — no constraint on engagement depth.';
 
     const c2Note = c2 === 'high'
@@ -268,20 +287,20 @@
       ? 'One strong signal from partner or role priority — supports meaningful engagement.'
       : (c3 === 'med' || c4 === 'med')
       ? 'Mixed partner and role priority — engage but set clear expectations.'
-      : 'Low partner and role priority — keep engagement light unless C2 justifies otherwise.';
+      : 'Low partner and role priority — keep engagement light unless strategic benefit justifies otherwise.';
 
-    const cappedNote = wasCapped ? ` <em>(Signals suggested ${lo}–${hi}, adjusted down by ability to succeed.)</em>` : '';
-    const rangeDesc = levelDescs[newHi].replace(/\n/g, '<br>');
+    const displayHi = parseInt(level.split('–').pop());
+    const rangeDesc = levelDescs[displayHi].replace(/\n/g, '<br>');
 
     document.getElementById('recBody').innerHTML = `
       <div class="rec-body">
         <div class="rec-level">
           <div class="rec-level-num">Suggested level</div>
-          <div class="rec-level-badge">${finalLevel}</div>
+          <div class="rec-level-badge">${level}</div>
           <div class="rec-level-desc">${rangeDesc}</div>
         </div>
         <div class="rec-divider"></div>
-        <div class="rec-rationale"><strong>Level ${finalLevel} suggested.</strong> ${c1Note} ${c2Note} ${c34Note}${cappedNote}</div>
+        <div class="rec-rationale"><strong>Level ${level} suggested.</strong> ${c1Note} ${c2Note} ${c34Note}</div>
       </div>`;
   }
 </script>
