@@ -77,18 +77,16 @@
 
   <div class="levels-section">
     <div class="levels-title">Potential levels of engagement</div>
-    <div class="levels-ownership-note">For levels 1–3, Prevail plays a supporting role — the partner owns the outcome and can/should use other recruitment resources. At level 4, Prevail takes on more responsibility for the outcome.</div>
     <div class="level-track">
       <div class="level-box lb-1"><div class="lv-tag">Level 1</div><ul class="lv-list"><li>Share existing candidates + make intros</li></ul></div>
       <div class="level-box lb-2"><div class="lv-tag">Level 2</div><ul class="lv-list"><li>Share existing candidates</li><li>Source (networking & online)</li><li>Potentially initial screening</li></ul></div>
       <div class="level-box lb-3"><div class="lv-tag">Level 3</div><ul class="lv-list"><li>Share existing candidates</li><li>Source, screen, full interviews</li><li>Full process & evaluation support</li></ul></div>
       <div class="level-box lb-4"><div class="lv-tag">Level 4</div><ul class="lv-list"><li>Full end-to-end responsibility</li><li>Potentially embed recruiter</li></ul></div>
     </div>
-
+    <div class="levels-ownership-note">For levels 1–3, we are explicit that Prevail plays a supporting role only — the partner owns the outcome and shouldn't rely solely on Prevail. At level 4, Prevail takes on more responsibility for the outcome.</div>
   </div>
 
   <h2>Prioritization criteria</h2>
-  <p class="subtitle">Score each criteria for a recommended level of engagement — these are guidelines only.</p>
   <div class="stack">
 
     <div class="row c1">
@@ -98,7 +96,7 @@
       </div>
       <div class="row-mid">
         <div class="mid-header">When & how we'd engage</div>
-        <div class="mid-desc">If <strong>high</strong>, lean in, depending on the other three factors.<br><br>If <strong>low</strong>, limit engagement (level 1 or nothing) regardless of the rest.</div>
+        <div class="mid-desc">If <strong>high</strong>, lean in depending on the other three factors.<br><br>If <strong>low</strong>, stick to level 1 unless the strategic benefit is high, in which case proceed if it helps us to learn. If proceeding, <strong>reduce risk</strong> by setting clear expectations — tell partners what we can and can't do, make sure they're not relying on us, and ensure they have other options.</div>
       </div>
       <div class="row-right">
         <div class="score-buttons">
@@ -109,11 +107,7 @@
       </div>
     </div>
 
-    <div class="divider-note">
-      <div class="divider-note-line"></div>
-      <div class="divider-note-text">Note: high likelihood of success is a pre-requisite to anything beyond level 1, regardless of the criteria below</div>
-      <div class="divider-note-line"></div>
-    </div>
+
 
     <div class="row c2">
       <div class="row-left">
@@ -224,19 +218,34 @@
   function updateRecommendation() {
     const { c1, c2, c3, c4 } = scores;
 
-    // C1 is the gateway — Low means Level 1, full stop
+    // C1 is the gateway — Low normally means Level 1 only
+    // Exception: if C2 (strategic benefit) is High, unlock 1-2 as a learning engagement
     if (c1 === 'low') {
-      const rangeDesc = levelDescs[1].replace(/\n/g, '<br>');
-      document.getElementById('recBody').innerHTML = `
-        <div class="rec-body">
-          <div class="rec-level">
-            <div class="rec-level-num">Suggested level</div>
-            <div class="rec-level-badge">1</div>
-            <div class="rec-level-desc">${rangeDesc}</div>
-          </div>
-          <div class="rec-divider"></div>
-          <div class="rec-rationale"><strong>Level 1 only.</strong> Ability to succeed is low — share existing candidates only, regardless of other criteria. Be transparent with the partner about capacity constraints.</div>
-        </div>`;
+      if (c2 === 'high') {
+        const rangeDesc = levelDescs[2].replace(/\n/g, '<br>');
+        document.getElementById('recBody').innerHTML = `
+          <div class="rec-body">
+            <div class="rec-level">
+              <div class="rec-level-num">Suggested level</div>
+              <div class="rec-level-badge">1–2</div>
+              <div class="rec-level-desc">${rangeDesc}</div>
+            </div>
+            <div class="rec-divider"></div>
+            <div class="rec-rationale"><strong>Level 1–2 as a learning engagement.</strong> Ability to succeed is low, but high strategic benefit justifies light involvement — this is a chance to build capability for the future. Be explicit with the partner: tell them what we can and can't do, make sure they're not relying on us, and ensure they have other options running in parallel.</div>
+          </div>`;
+      } else {
+        const rangeDesc = levelDescs[1].replace(/\n/g, '<br>');
+        document.getElementById('recBody').innerHTML = `
+          <div class="rec-body">
+            <div class="rec-level">
+              <div class="rec-level-num">Suggested level</div>
+              <div class="rec-level-badge">1</div>
+              <div class="rec-level-desc">${rangeDesc}</div>
+            </div>
+            <div class="rec-divider"></div>
+            <div class="rec-rationale"><strong>Level 1 only.</strong> Ability to succeed is low and strategic benefit does not justify stretching further. Share existing candidates only and be transparent with the partner about capacity constraints.</div>
+          </div>`;
+      }
       return;
     }
 
@@ -268,23 +277,44 @@
       if (level === '3–3') level = '3';
     }
 
+    // Build a natural opening sentence weaving together why we are/aren't engaging
+    const engagementNote = (() => {
+      const partnerHigh = c3 === 'high', partnerLow = c3 === 'low';
+      const roleHigh = c4 === 'high', roleLow = c4 === 'low';
+      const stratHigh = c2 === 'high', stratLow = c2 === 'low';
+
+      // Determine "despite" and "because" clauses
+      const positives = [];
+      const negatives = [];
+      if (stratHigh) positives.push('the strategic benefit to Prevail is high');
+      if (c2 === 'med') positives.push('there is some strategic benefit to Prevail');
+      if (partnerHigh) positives.push('it\'s a high priority partner');
+      if (roleHigh) positives.push('it\'s a high priority role');
+      if (partnerLow) negatives.push('low priority partner');
+      if (roleLow) negatives.push('low priority role');
+      if (stratLow) negatives.push('limited strategic benefit');
+
+      if (positives.length === 0 && negatives.length === 0) return 'Medium signals across the board — use judgement on whether to proceed.';
+
+      const posStr = positives.join(', and ');
+      const negStr = negatives.join(' and ');
+
+      if (positives.length > 0 && negatives.length > 0) {
+        return `Worth engaging despite ${negStr} because ${posStr}.`;
+      } else if (positives.length > 0) {
+        return `Worth engaging — ${posStr}.`;
+      } else {
+        return `Low priority across the board (${negStr}) — keep engagement light.`;
+      }
+    })();
+
     const c1Note = c1 === 'med'
-      ? 'Ability to succeed is uncertain — capping at level 3. Be clear with the partner we are not taking full ownership of the search.'
-      : 'Ability to succeed is strong — no constraint on engagement depth.';
+      ? ' Ability to succeed is medium, so cap at level 3.'
+      : ' Ability to succeed is strong.';
 
-    const c2Note = c2 === 'high'
-      ? 'Strong strategic benefit justifies engaging even if other signals are weaker.'
-      : c2 === 'med'
-      ? 'Some strategic benefit — worth proceeding if other signals support it.'
-      : 'Limited strategic benefit — partner and role priority need to justify engagement.';
-
-    const c34Note = (c3 === 'high' && c4 === 'high')
-      ? 'High partner and role priority strongly support deeper engagement.'
-      : (c3 === 'high' || c4 === 'high')
-      ? 'One strong signal from partner or role priority — supports meaningful engagement.'
-      : (c3 === 'med' || c4 === 'med')
-      ? 'Mixed partner and role priority — engage but set clear expectations.'
-      : 'Low partner and role priority — keep engagement light unless strategic benefit justifies otherwise.';
+    const riskNote = c1 === 'med'
+      ? ' <strong>Reduce risk:</strong> be upfront with the partner that we\'re supporting only — underpromise and overdeliver — and make sure they have other options running in parallel.'
+      : '';
 
     const displayHi = parseInt(level.split('–').pop());
     const rangeDesc = levelDescs[displayHi].replace(/\n/g, '<br>');
@@ -297,7 +327,7 @@
           <div class="rec-level-desc">${rangeDesc}</div>
         </div>
         <div class="rec-divider"></div>
-        <div class="rec-rationale"><strong>Level ${level} suggested.</strong> ${c1Note} ${c2Note} ${c34Note}</div>
+        <div class="rec-rationale"><strong>Suggest level ${level}.</strong> ${engagementNote}${c1Note}${riskNote}</div>
       </div>`;
   }
 </script>
