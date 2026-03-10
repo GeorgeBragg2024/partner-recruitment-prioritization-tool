@@ -26,6 +26,7 @@
   .mid-desc strong { font-weight: 600; color: #1a1a1a; }
   .row-right { width: 100px; flex-shrink: 0; border-left: 1px solid #E8E4DC; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px 10px; gap: 4px; background: #FAFAF8; }
   .score-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #bbb; }
+  .select-label { font-size: 13px; font-weight: 600; color: #1a1a1a; line-height: 1.3; margin-bottom: 4px; }
   .score-buttons { display: flex; flex-direction: column; gap: 4px; width: 100%; }
   .score-btn { width: 100%; padding: 4px 0; border-radius: 5px; border: 1.5px solid #E8E4DC; background: white; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; transition: all 0.15s; }
   .score-btn:hover { border-color: #ccc; color: #555; }
@@ -102,6 +103,7 @@
         <div class="mid-desc">If <strong>high</strong>, lean in depending on the other three factors.<br><br>If <strong>low</strong>, stick to level 1 unless the strategic benefit is high, in which case proceed if it helps us to learn. If proceeding, <strong>reduce risk</strong> by setting clear expectations — tell partners what we can and can't do, make sure they're not relying on us, and ensure they have other options.</div>
       </div>
       <div class="row-right">
+        <div class="select-label">Select</div>
         <div class="score-buttons">
           <button class="score-btn" onclick="setScore('c1','high',this)">High</button>
           <button class="score-btn" onclick="setScore('c1','med',this)">Med</button>
@@ -122,6 +124,7 @@
         <div class="mid-desc">If <strong>high</strong>, lean in regardless of the priority of the role or the partner.<br><br>If <strong>low</strong>, engage only if partner/role priority is high.</div>
       </div>
       <div class="row-right">
+        <div class="select-label">Select</div>
         <div class="score-buttons">
           <button class="score-btn" onclick="setScore('c2','high',this)">High</button>
           <button class="score-btn" onclick="setScore('c2','med',this)">Med</button>
@@ -140,6 +143,7 @@
         <div class="mid-desc">If <strong>high</strong>, lean in regardless of any additional strategic benefit, and aim for high priority roles.<br><br>If <strong>low</strong>, engage only if there's other strategic benefit.</div>
       </div>
       <div class="row-right">
+        <div class="select-label">Select</div>
         <div class="score-buttons">
           <button class="score-btn" onclick="setScore('c3','high',this)">High</button>
           <button class="score-btn" onclick="setScore('c3','med',this)">Med</button>
@@ -158,6 +162,7 @@
         <div class="mid-desc">Aim for <strong>high</strong> priority roles in general. Avoid <strong>low</strong> priority unless there's strategic benefit.</div>
       </div>
       <div class="row-right">
+        <div class="select-label">Select</div>
         <div class="score-buttons">
           <button class="score-btn" onclick="setScore('c4','high',this)">High</button>
           <button class="score-btn" onclick="setScore('c4','med',this)">Med</button>
